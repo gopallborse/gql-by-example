@@ -73,7 +73,7 @@ export const resolvers = {
 
       // return deleteJob(id);
 
-      const job = await deleteJob(user.companyId);
+      const job = await deleteJob(id, user.companyId);
       if (!job) {
         throw notFoundError(`No job found with id ${id}.`);
       }
