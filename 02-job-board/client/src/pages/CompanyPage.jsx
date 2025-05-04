@@ -2,16 +2,19 @@ import { useParams } from "react-router";
 // import { companies } from "../lib/fake-data";
 // import { useEffect, useState } from "react";
 // import { companyByIdQuery, getCompany } from "../lib/graphql/queries";
-import { companyByIdQuery } from "../lib/graphql/queries";
+// import { companyByIdQuery } from "../lib/graphql/queries";
 import JobList from "../components/JobList";
-import { useQuery } from "@apollo/client";
+// import { useQuery } from "@apollo/client";
+import { useCompany } from "../lib/graphql/hooks";
 
 function CompanyPage() {
   const { companyId } = useParams();
 
-  const { data, loading, error } = useQuery(companyByIdQuery, {
-    variables: { id: companyId },
-  });
+  // const { data, loading, error } = useQuery(companyByIdQuery, {
+  //   variables: { id: companyId },
+  // });
+
+  const { company, loading, error } = useCompany(companyId);
 
   // const company = companies.find((company) => company.id === companyId);
 
@@ -36,7 +39,7 @@ function CompanyPage() {
   //   })();
   // }, [companyId]);
 
-  // const { company, loading, error } = state;  
+  // const { company, loading, error } = state;
 
   if (loading) {
     return <div>Loading...</div>;
@@ -46,7 +49,7 @@ function CompanyPage() {
     return <div className="has-text-danger">Data unavailable.</div>;
   }
 
-  const { company } = data;
+  // const { company } = data;
 
   return (
     <div>
