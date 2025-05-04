@@ -1,36 +1,42 @@
 import { useParams } from "react-router";
-import { companies } from "../lib/fake-data";
-import { useEffect, useState } from "react";
-import { getCompany } from "../lib/graphql/queries";
+// import { companies } from "../lib/fake-data";
+// import { useEffect, useState } from "react";
+// import { companyByIdQuery, getCompany } from "../lib/graphql/queries";
+import { companyByIdQuery } from "../lib/graphql/queries";
 import JobList from "../components/JobList";
+import { useQuery } from "@apollo/client";
 
 function CompanyPage() {
   const { companyId } = useParams();
+
+  const { data, loading, error } = useQuery(companyByIdQuery, {
+    variables: { id: companyId },
+  });
 
   // const company = companies.find((company) => company.id === companyId);
 
   // const [company, setCompany] = useState();
 
-  const [state, setState] = useState({
-    company: null,
-    loading: true,
-    error: false,
-  });
+  // const [state, setState] = useState({
+  //   company: null,
+  //   loading: true,
+  //   error: false,
+  // });
 
-  useEffect(() => {
-    // getCompany(companyId).then(setCompany);
+  // useEffect(() => {
+  //   // getCompany(companyId).then(setCompany);
 
-    (async () => {
-      try {
-        const company = await getCompany(companyId);
-        setState({ company, loading: false, error: false });
-      } catch {
-        setState({ company: null, loading: false, error: true });
-      }
-    })();
-  }, [companyId]);
+  //   (async () => {
+  //     try {
+  //       const company = await getCompany(companyId);
+  //       setState({ company, loading: false, error: false });
+  //     } catch {
+  //       setState({ company: null, loading: false, error: true });
+  //     }
+  //   })();
+  // }, [companyId]);
 
-  const { company, loading, error } = state;
+  // const { company, loading, error } = state;  
 
   if (loading) {
     return <div>Loading...</div>;
@@ -39,6 +45,8 @@ function CompanyPage() {
   if (error) {
     return <div className="has-text-danger">Data unavailable.</div>;
   }
+
+  const { company } = data;
 
   return (
     <div>
