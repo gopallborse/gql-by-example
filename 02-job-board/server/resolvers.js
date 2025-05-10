@@ -1,4 +1,5 @@
 import { GraphQLError } from "graphql";
+// import { companyLoader, getCompany } from "./db/companies.js";
 import { getCompany } from "./db/companies.js";
 import {
   getJobs,
@@ -84,13 +85,16 @@ export const resolvers = {
   Job: {
     // title: "Job Title",
     title: (job) => job.title,
-    company: (job) => {
-      // return {
-      //   id: "test-id",
-      //   name: "test name",
-      // };
-      return getCompany(job.companyId);
-    },
+    // company: (job) => {
+    // return {
+    //   id: "test-id",
+    //   name: "test name",
+    // };
+    // return getCompany(job.companyId);
+    //   return companyLoader.load(job.companyId);
+    // },
+    company: (job, _args, { companyLoader }) =>
+      companyLoader.load(job.companyId),
     date: (job) => toIsoDate(job.createdAt),
   },
 
