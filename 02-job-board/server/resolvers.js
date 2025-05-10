@@ -8,13 +8,18 @@ import {
   createJob,
   updateJob,
   deleteJob,
+  countJobs,
 } from "./db/jobs.js";
 
 export const resolvers = {
   Query: {
     // greeting: () => "Hello World!",
 
-    jobs: () => getJobs(),
+    jobs: async (_root, { limit, offset }) => {
+      const items = await getJobs(limit, offset);
+      const totalCount = await countJobs();
+      return { items, totalCount };
+    },
     job: async (_root, { id }) => {
       const job = await getJob(id);
       if (!job) {
